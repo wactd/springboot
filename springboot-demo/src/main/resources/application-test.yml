@@ -1,0 +1,8 @@
+server:
+  port: 8081
+  context-path: /
+
+user:
+  username: 测试环境
+  age: 21
+  description: "姓名：${user.username}, 年龄：${user.age}"
