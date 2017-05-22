@@ -70,7 +70,7 @@
                 之后依赖myboot项目的项目如果想要使用devtools，需要重新引入
             -->
             <optional>true</optional>
-            <scope>runtime</scope>
+            <!--<scope>runtime</scope>-->
         </dependency>
 
         <dependency>
