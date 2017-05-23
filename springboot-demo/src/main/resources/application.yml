@@ -43,11 +43,11 @@ spring:
 #    show-sql: true
 
 #Mybatis配置
-mybatis:
-  mapper-locations: classpath:com/dongly/**/*Mapper.xml
+#mybatis:
+#  mapper-locations: classpath:com/dongly/**/*Mapper.xml
 #分页插件配置
-pagehelper:
-  helper-dialect: mysql
-  reasonable: true
-  support-methods-arguments: true
-  params: count=countSql
+#pagehelper:
+#  helper-dialect: mysql
+#  reasonable: true
+#  support-methods-arguments: true
+#  params: count=countSql
