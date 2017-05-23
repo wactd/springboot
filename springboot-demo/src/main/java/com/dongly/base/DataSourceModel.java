@@ -2,7 +2,6 @@ package com.dongly.base;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
