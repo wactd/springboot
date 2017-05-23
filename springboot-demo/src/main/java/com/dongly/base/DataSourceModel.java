@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by dongly on 2017/5/23.
+ * 配置文件实体化
  */
 @Component
 @ConfigurationProperties(prefix = "spring.datasource", ignoreInvalidFields = false)
