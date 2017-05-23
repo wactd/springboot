@@ -1,5 +1,6 @@
 package com.dongly.test.controller;
 
+import com.dongly.base.DataSourceModel;
 import com.dongly.test.entity.UserProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,9 @@ public class HelloWordController {
     @Autowired
     private UserProperties properties;
 
+    @Autowired
+    private DataSourceModel sourceModel;
+
     @GetMapping(value = "/user/desc")
     public String desc() {
         return properties.getDescription();
@@ -36,6 +40,7 @@ public class HelloWordController {
 
     @GetMapping(value = "/")
     public String hello() {
+        System.out.println(sourceModel);
         return "Hello World(你好, 世界)!";
     }
 
