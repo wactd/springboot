@@ -61,6 +61,7 @@ public class DataSourceModel {
     @NotNull
     private Boolean testOnReturn;
 
+
     // 打开PSCache，并且指定每个连接上PSCache的大小
     @NotNull
     private Boolean poolPreparedStatements;
