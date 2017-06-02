@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import redis.clients.jedis.JedisPoolConfig;
 
 import javax.annotation.PostConstruct;
 
@@ -16,19 +18,34 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class RedisConfig<T> {
 
-    private final RedisConnectionFactory redisConnectionFactory;
+//    private final RedisConnectionFactory redisConnectionFactory;
+//
+//    @Autowired
+//    public RedisConfig(RedisConnectionFactory redisConnectionFactory) {
+//        this.redisConnectionFactory = redisConnectionFactory;
+//    }
 
-    @Autowired
-    public RedisConfig(RedisConnectionFactory redisConnectionFactory) {
-        this.redisConnectionFactory = redisConnectionFactory;
+    @Bean
+    public JedisConnectionFactory jedisConnectionFactory() {
+        JedisConnectionFactory factory = new JedisConnectionFactory();
+//        factory.setPassword(password);
+        factory.setHostName("127.0.0.1");
+        factory.setPort(6379);
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxTotal(8);
+        jedisPoolConfig.setMaxIdle(8);
+        jedisPoolConfig.setMinIdle(0);
+        jedisPoolConfig.setMaxWaitMillis(500);
+
+        factory.setPoolConfig(jedisPoolConfig);
+        return factory;
     }
-
 
     @Bean
     public RedisTemplate<String, T> redisTemplate() {
 
         RedisTemplate<String, T> redisTemplate = new RedisTemplate<>();
-        initDomainRedisTemplate(redisTemplate, redisConnectionFactory);
+        initDomainRedisTemplate(redisTemplate, jedisConnectionFactory());
         return redisTemplate;
     }
 
