@@ -1,7 +1,9 @@
 package com.dongly.base;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,28 +39,37 @@ public class MyBatisConfig {
     private static String MAPPER_PATH = "/com.dongly/**/*Mapper.xml";
 
     @Bean
-    public SqlSessionFactoryBean sqlSessionFactory() throws IOException {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+    public SqlSessionFactory sqlSessionFactory() throws IOException {
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         /** 设置mybatis configuration 扫描路径 */
 //        sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(MYBATIS_CONFIG));
         /** 添加mapper 扫描路径 */
-        PathMatchingResourcePatternResolver pathMatchingResourcePatternResolver = new PathMatchingResourcePatternResolver();
+        PathMatchingResourcePatternResolver resolver =
+                new PathMatchingResourcePatternResolver();
         String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + MAPPER_PATH;
-        sqlSessionFactoryBean.setMapperLocations(pathMatchingResourcePatternResolver.getResources(packageSearchPath));
+        bean.setMapperLocations(resolver.getResources(packageSearchPath));
         /** 设置datasource */
-        sqlSessionFactoryBean.setDataSource(dataSource);
+        bean.setDataSource(dataSource);
+        try {
+            return bean.getObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-        // 分页插件
-        PageInterceptor interceptor = new PageInterceptor();
+
+    @Bean
+    public PageHelper pageHelper() {
+        System.out.println("====>>>开始加载分页信息====>>>");
+        PageHelper pageHelper = new PageHelper();
         Properties properties = new Properties();
-//        properties.put("reasonable", "true");
-//        properties.put("helperDialect", "mysql");
-//        properties.put("supportMethodsArguments", "true");
-//        properties.put("params", "count=countSql");
-//        properties.put("autoRuntimeDialect", "true");
-
-        interceptor.setProperties(properties);
-        sqlSessionFactoryBean.setPlugins(new Interceptor[]{interceptor});
-        return sqlSessionFactoryBean;
+        properties.put("reasonable", "true");
+        properties.put("helperDialect", "mysql");
+        properties.put("supportMethodsArguments", "true");
+        properties.put("params", "count=countSql");
+        properties.put("autoRuntimeDialect", "true");
+        pageHelper.setProperties(properties);
+        return pageHelper;
     }
 }

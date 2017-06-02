@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
@@ -32,6 +33,7 @@ public class DruidConfiguration {
      * @version 1.0
      * @date 2017/5/23 20:01
      */
+    @PostConstruct
     @Bean(initMethod = "init", destroyMethod = "close")
     public DataSource dataSource() throws SQLException {
         DruidDataSource druidDataSource = new DruidDataSource();
