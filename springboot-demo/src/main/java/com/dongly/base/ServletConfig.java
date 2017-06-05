@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +21,17 @@ import java.util.List;
  */
 
 @Configuration
-public class ServletConfig {
+public class ServletConfig extends WebMvcConfigurerAdapter {
 
-    @Bean
-    public HttpMessageConverters fastJsonHttpMessageConverter4() {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("static/**")
+                .addResourceLocations("classpath:static/");
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         FastJsonHttpMessageConverter4 fastConverter = new FastJsonHttpMessageConverter4();
         List<MediaType> supportedMediaTypes = new ArrayList<>();
         supportedMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
@@ -34,7 +43,8 @@ public class ServletConfig {
                 Feature.DisableCircularReferenceDetect);
 
         fastConverter.setFastJsonConfig(fastJsonConfig);
-        return new HttpMessageConverters(fastConverter);
+
+        converters.add(fastConverter);
     }
 
 }

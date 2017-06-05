@@ -38,10 +38,4 @@ public class HelloWordController {
         return "姓名：" + username + " 年龄：" + age;
     }
 
-    @GetMapping(value = "/")
-    public String hello() {
-        System.out.println(sourceModel);
-        return "Hello World(你好, 世界)!";
-    }
-
 }
