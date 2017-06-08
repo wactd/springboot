@@ -53,8 +53,6 @@ public class HelloWordController {
     }
 
 
-
-
     @GetMapping(value = "/async")
     public DeferredResult<Map<String, Object>> quotes() throws InterruptedException {
         DeferredResult<Map<String, Object>> deferredResult = new DeferredResult<>();
