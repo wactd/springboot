@@ -3,6 +3,7 @@ package com.dongly;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,11 +17,13 @@ public class ListTest {
     @Test
     public void test1() {
 
-        Set<String> set = new LinkedHashSet<>();
-        set.add("one");
-        set.add("one");
-        set.add("one");
-        System.out.println(set);
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        for (Integer d : list) {
+            list.remove(d);
+        }
 
     }
 
